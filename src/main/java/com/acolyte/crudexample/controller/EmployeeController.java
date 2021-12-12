@@ -52,19 +52,19 @@ public class EmployeeController extends HttpServlet {
     private void listEmployee(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Employee> employeeList = daoEmployee.findAll();
         request.setAttribute("listEmployee", employeeList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/user-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-list.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/user-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-form.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String id = request.getParameter("id");
         Optional<Employee> existingEmployee = daoEmployee.find(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/user-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-form.jsp");
         request.setAttribute("employee", existingEmployee);
         dispatcher.forward(request, response);
     }
