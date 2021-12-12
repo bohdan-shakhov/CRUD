@@ -2,6 +2,7 @@ package com.acolyte.crudexample.controller;
 
 import com.acolyte.crudexample.dao.DaoEmployee;
 import com.acolyte.crudexample.model.Employee;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -29,8 +30,22 @@ public class EmployeeController extends HttpServlet {
         try {
             switch (action) {
                 case "/new":
-
+                    showNewForm(request, response);
+                    break;
+                case "/insert":
+                    insertEmployee(request, response);
+                case "/delete":
+                    deleteEmployee(request, response);
+                case "/edit":
+                    showEditForm(request, response);
+                case "/update":
+                    updateEmployee(request, response);
+                default:
+                    listEmployee(request, response);
+                    break;
             }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "trouble with executing redirect methods", e);
         }
     }
 
