@@ -11,7 +11,6 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet("/")
 public class EmployeeController extends HttpServlet {
@@ -34,12 +33,16 @@ public class EmployeeController extends HttpServlet {
                     break;
                 case "/insert":
                     insertEmployee(request, response);
+                    break;
                 case "/delete":
                     deleteEmployee(request, response);
+                    break;
                 case "/edit":
                     showEditForm(request, response);
+                    break;
                 case "/update":
                     updateEmployee(request, response);
+                    break;
                 default:
                     listEmployee(request, response);
                     break;
@@ -50,21 +53,21 @@ public class EmployeeController extends HttpServlet {
     }
 
     private void listEmployee(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        List<Employee> employeeList = daoEmployee.findAll();
-        request.setAttribute("listEmployee", employeeList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-list.jsp");
+        List<Employee> listEmployee = daoEmployee.findAll();
+        request.setAttribute("listEmployee", listEmployee);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/employee-list.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/employee-form.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String id = request.getParameter("id");
-        Optional<Employee> existingEmployee = daoEmployee.find(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/employee-form.jsp");
+        Employee existingEmployee = daoEmployee.find(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/employee-form.jsp");
         request.setAttribute("employee", existingEmployee);
         dispatcher.forward(request, response);
     }

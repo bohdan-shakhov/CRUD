@@ -6,7 +6,6 @@ import com.acolyte.crudexample.sql.Queries;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DaoEmployee implements EmployeeDao {
     private DaoEmployee(){}
@@ -20,11 +19,11 @@ public class DaoEmployee implements EmployeeDao {
     }
 
     @Override
-    public Optional<Employee> find(String id) throws SQLException {
+    public Employee find(String id) throws SQLException {
         int empId = 0;
-        String empName = null;
-        double empSalary = 0.0;
-        String empDept = null;
+        String name = null;
+        double salary = 0.0;
+        String department = null;
 
         Connection connection = DataSourceFactory.getConnection();
         PreparedStatement statement = connection.prepareStatement(Queries.GET_BY_ID);
@@ -33,11 +32,11 @@ public class DaoEmployee implements EmployeeDao {
 
         if (resultSet.next()) {
             empId = resultSet.getInt("emp_id");
-            empName = resultSet.getString("emp_name");
-            empSalary = resultSet.getDouble("salary");
-            empDept = resultSet.getString("dept_name");
+            name = resultSet.getString("emp_name");
+            salary = resultSet.getDouble("salary");
+            department = resultSet.getString("dept_name");
         }
-        return Optional.of(new Employee(empId, empName, empSalary, empDept));
+        return new Employee(empId, name, salary, department);
     }
 
     @Override
@@ -55,6 +54,7 @@ public class DaoEmployee implements EmployeeDao {
             Employee employee = new Employee(id, name, salary, department);
             employeeList.add(employee);
         }
+        System.out.println(employeeList);
         return employeeList;
     }
 
