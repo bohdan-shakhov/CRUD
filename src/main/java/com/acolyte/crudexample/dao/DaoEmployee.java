@@ -59,7 +59,7 @@ public class DaoEmployee implements EmployeeDao {
     }
 
     @Override
-    public boolean save(Employee employee) throws SQLException {
+    public boolean insert(Employee employee) throws SQLException {
         boolean rowInserted;
         Connection connection = DataSourceFactory.getConnection();
         PreparedStatement statement = connection.prepareStatement(Queries.INSERT);
