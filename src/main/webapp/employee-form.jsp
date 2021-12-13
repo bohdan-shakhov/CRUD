@@ -11,10 +11,10 @@
 <body>
 
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark" style="background-color: tomato">
+  <nav class="navbar navbar-expand-md navbar-dark" style="background-color: lightgreen">
 
     <ul class="navbar-nav">
-      <li><a href="<%=request.getContextPath()%>/employee-list.jsp" class="nav-link">Employees</a></li>
+      <li><a href="<%=request.getContextPath()%>/list" class="nav-link" style="color: black">Employees</a></li>
     </ul>
   </nav>
 </header>
