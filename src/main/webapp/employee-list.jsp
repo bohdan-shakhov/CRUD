@@ -16,7 +16,7 @@
 	<nav class="navbar navbar-expand-md navbar-dark" style="background-color: midnightblue">
 
 		<ul class="navbar-nav">
-			<li><a href="<%=request.getContextPath()%>/list" class="nav-link">Employees</a></li>
+			<li><a href="<%=request.getContextPath()%>/list" class="nav-link" style="color: white">Employees</a></li>
 		</ul>
 	</nav>
 </header>
