@@ -53,8 +53,18 @@ public class EmployeeController extends HttpServlet {
     }
 
     private void listEmployee(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        List<Employee> listEmployee = daoEmployee.findAll();
+        int page = 1;
+        int recordsPerPage = 5;
+        if (request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+
+        List<Employee> listEmployee = daoEmployee.findAll((page-1) * recordsPerPage, recordsPerPage);
+        int noOfRecords = daoEmployee.getNoOfRecords();
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
         request.setAttribute("listEmployee", listEmployee);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("currentPage", page);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/employee-list.jsp");
         dispatcher.forward(request, response);
     }
