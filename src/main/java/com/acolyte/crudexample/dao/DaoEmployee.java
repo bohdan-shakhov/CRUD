@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoEmployee implements EmployeeDao {
+    private int noOfRecords;
     private DaoEmployee(){}
 
     private static class SingletonHelper {
@@ -40,11 +41,11 @@ public class DaoEmployee implements EmployeeDao {
     }
 
     @Override
-    public List<Employee> findAll() throws SQLException {
+    public List<Employee> findAll(int offset, int noOfRecords) throws SQLException {
         List<Employee> employeeList = new ArrayList<>();
         Connection connection = DataSourceFactory.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(Queries.GET_ALL);
+        ResultSet resultSet = statement.executeQuery(Queries.GET_ALL + " LIMIT " + offset + ", " + noOfRecords);
 
         while (resultSet.next()) {
             int id = resultSet.getInt("emp_id");
@@ -54,7 +55,12 @@ public class DaoEmployee implements EmployeeDao {
             Employee employee = new Employee(id, name, salary, department);
             employeeList.add(employee);
         }
-        System.out.println(employeeList);
+        resultSet.close();
+
+        resultSet = statement.executeQuery("SELECT COUNT(*) FROM employee");
+        if (resultSet.next())
+            this.noOfRecords = resultSet.getInt(1);
+
         return employeeList;
     }
 
@@ -91,5 +97,9 @@ public class DaoEmployee implements EmployeeDao {
         statement.setInt(1, employee.getId());
         rowDeleted = statement.executeUpdate() > 0;
         return rowDeleted;
+    }
+
+    public int getNoOfRecords() {
+        return noOfRecords;
     }
 }
